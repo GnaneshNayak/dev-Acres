@@ -8,16 +8,17 @@ import {
 } from '@/components/ui/sheet';
 import Image from 'next/image';
 import Link from 'next/link';
-import { SignedOut } from '@clerk/nextjs';
+import { SignedIn, SignedOut, useClerk } from '@clerk/nextjs';
 import { Button } from '@/components/ui/button';
 import { sidebarLinks } from '@/constants';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { LogOut } from 'lucide-react';
 
 const NavContent = () => {
   const pathname = usePathname();
 
   return (
-    <section className="flex h-full flex-col gap-6 pt-16">
+    <section className="flex h-full flex-col gap-2 pt-12">
       {sidebarLinks.map((item) => {
         const isActive =
           (pathname.includes(item.route) && item.route.length > 1) ||
@@ -42,9 +43,7 @@ const NavContent = () => {
                 height={20}
                 className={`${isActive ? '' : 'invert-colors'}`}
               />
-              <p className={`${isActive ? 'base-bold' : 'base-medium'}`}>
-                {item.label}
-              </p>
+              <p className={`${isActive ? 'base-bold' : ''}`}>{item.label}</p>
             </Link>
           </SheetClose>
         );
@@ -54,6 +53,8 @@ const NavContent = () => {
 };
 
 const MobileNav = () => {
+  const router = useRouter();
+  const { signOut } = useClerk();
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -87,7 +88,7 @@ const MobileNav = () => {
           </SheetClose>
 
           <SignedOut>
-            <div className="flex flex-col gap-3">
+            <div className="mt-4 flex flex-col gap-3">
               <SheetClose asChild>
                 <Link href="/sign-in">
                   <Button
@@ -112,6 +113,19 @@ const MobileNav = () => {
               </SheetClose>
             </div>
           </SignedOut>
+          <SignedIn>
+            <div className="mt-16">
+              <Button
+                className=" text-dark400_light900 no-focus flex
+                  w-full items-center justify-start gap-4
+                    bg-transparent p-4 shadow-none"
+                onClick={() => signOut(() => router.push('/'))}
+              >
+                <LogOut width={20} height={20} className={'invert-colors'} />
+                <span className="base-medium">Logout</span>
+              </Button>
+            </div>
+          </SignedIn>
         </div>
       </SheetContent>
     </Sheet>
