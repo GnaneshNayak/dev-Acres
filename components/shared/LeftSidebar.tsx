@@ -102,7 +102,7 @@ const LeftSidebar = () => {
           onClick={() => signOut(() => router.push('/'))}
         >
           <LogOut width={20} height={20} />
-          <span className="base-medium">Logout</span>
+          <span className="base-medium max-lg:hidden">Logout</span>
         </Button>
       </SignedIn>
     </section>
