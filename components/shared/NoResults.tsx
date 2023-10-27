@@ -2,8 +2,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { Button } from '../ui/button';
-import { title } from 'process';
-import link from 'next/link';
 
 type Props = {
   title: string;

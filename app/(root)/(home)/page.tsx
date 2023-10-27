@@ -1,3 +1,4 @@
+import QuestionCard from '@/components/cards/QuestionCard';
 import Homefilters from '@/components/home/Homefilters';
 import Filter from '@/components/shared/Filter';
 import NoResults from '@/components/shared/NoResults';
@@ -85,14 +86,30 @@ export default function Home() {
       <Homefilters filters={HomePageFilters} />
 
       <div className="mt-10 flex w-full flex-col gap-6">
-        <NoResults
-          title=" There are no question to show"
-          description="  Be the first to break the silence! 🚀 Ask a Question and kickstart the
+        {questions.length > 0 ? (
+          questions.map((question) => (
+            <QuestionCard
+              key={question._id}
+              _id={question._id}
+              title={question.title}
+              tags={question.tags}
+              author={question.author}
+              upvotes={question.upvotes}
+              views={question.views}
+              answers={question.answers}
+              createdAt={question.createdAt}
+            />
+          ))
+        ) : (
+          <NoResults
+            title=" There are no question to show"
+            description="  Be the first to break the silence! 🚀 Ask a Question and kickstart the
         discussion. our query could be the next big thing others learn from. Get
         involved! 💡"
-          link="/ask-questions"
-          linkTittle="Ask a Question"
-        />
+            link="/ask-questions"
+            linkTittle="Ask a Question"
+          />
+        )}
       </div>
     </>
   );

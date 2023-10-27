@@ -1,57 +1,57 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import { Badge } from '../ui/badge';
+
 import RenderTag from './RenderTag';
 
 type Props = {};
 
 const hotQuestion = [
   {
-    id: 1,
+    id: '1',
     title:
       'Best practices for data fetching in a Next.js application with Server-Side Rendering (SSR)?',
   },
   {
-    id: 2,
+    id: '2',
     title: ' Can I get the course for free?',
   },
   {
-    id: 3,
+    id: '3',
     title: 'Redux Toolkit Not Updating State as Expected',
   },
   {
-    id: 4,
+    id: '4',
     title: 'Async/Await Function Not Handling Errors Properly',
   },
   {
-    id: 5,
+    id: '5',
     title: 'How do I use express as a custom server in NextJS?',
   },
 ];
 const PopularTags = [
   {
-    id: 1,
+    id: '1',
     title: 'React',
     totalQuestion: 12,
   },
   {
-    id: 2,
+    id: '2',
     title: 'Next js ',
     totalQuestion: 3,
   },
   {
-    id: 3,
+    id: '3',
     title: 'Tailwind',
     totalQuestion: 32,
   },
   {
-    id: 4,
+    id: '4',
     title: 'Java',
     totalQuestion: 22,
   },
   {
-    id: 5,
+    id: '5',
     title: 'NextJS?',
     totalQuestion: 222,
   },
