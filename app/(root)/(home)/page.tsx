@@ -1,10 +1,48 @@
 import Homefilters from '@/components/home/Homefilters';
 import Filter from '@/components/shared/Filter';
+import NoResults from '@/components/shared/NoResults';
 import LocalSearchbar from '@/components/shared/search/LocalSearchbar';
 import { Button } from '@/components/ui/button';
 import { HomePageFilters } from '@/constants/Filter';
 
 import Link from 'next/link';
+
+const questions = [
+  {
+    _id: '1',
+    title: 'Cascading Deletes in SQLAlchemy?',
+    tags: [
+      { _id: '1', name: 'python' },
+      { _id: '2', name: 'sql' },
+    ],
+    author: {
+      _id: '1',
+      name: 'John Doe',
+      picture: 'john-doe.jpg',
+    },
+    upvotes: 1500000,
+    views: 500552,
+    answers: [],
+    createdAt: new Date('2023-09-01T12:00:00.000Z'),
+  },
+  {
+    _id: '2',
+    title: 'How to center a div?',
+    tags: [
+      { _id: '3', name: 'css' },
+      { _id: '4', name: 'html' },
+    ],
+    author: {
+      _id: '2',
+      name: 'Jane Smith',
+      picture: 'jane-smith.jpg',
+    },
+    upvotes: 5,
+    views: 50,
+    answers: [],
+    createdAt: new Date('2021-09-02T10:30:00.000Z'),
+  },
+];
 
 export default function Home() {
   return (
@@ -45,6 +83,17 @@ export default function Home() {
         />
       </div>
       <Homefilters filters={HomePageFilters} />
+
+      <div className="mt-10 flex w-full flex-col gap-6">
+        <NoResults
+          title=" There are no question to show"
+          description="  Be the first to break the silence! 🚀 Ask a Question and kickstart the
+        discussion. our query could be the next big thing others learn from. Get
+        involved! 💡"
+          link="/ask-questions"
+          linkTittle="Ask a Question"
+        />
+      </div>
     </>
   );
 }
