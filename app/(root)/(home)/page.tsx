@@ -18,7 +18,7 @@ const questions = [
     ],
     author: {
       _id: '1',
-      name: 'John Doe',
+      name: 'Gnanesh | JS Mastery',
       picture: 'john-doe.jpg',
     },
     upvotes: 1500000,
