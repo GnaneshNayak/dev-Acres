@@ -1,6 +1,6 @@
 import Question from '@/components/form/Question';
 
-export default function Home() {
+export default function Page() {
   return (
     <>
       <div>
