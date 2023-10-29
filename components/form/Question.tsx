@@ -3,6 +3,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import React, { useRef } from 'react';
+import { Editor } from '@tinymce/tinymce-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -16,9 +18,17 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { QuestionSchema } from '@/lib/validation';
+import { Badge } from '../ui/badge';
+import Image from 'next/image';
 
 const Question = () => {
   // ...
+  const editorRef = useRef(null);
+  // const log = () => {
+  //   if (editorRef.current) {
+  //     console.log(editorRef.current.getContent());
+  //   }
+  // };
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof QuestionSchema>>({
@@ -26,7 +36,7 @@ const Question = () => {
     defaultValues: {
       title: '',
       explanation: '',
-      tags: [''],
+      tags: [],
     },
   });
 
@@ -36,6 +46,46 @@ const Question = () => {
     // ✅ This will be type-safe and validated.
     console.log(values);
   }
+
+  const handleInputKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    field: any,
+  ) => {
+    if (e.key === 'Enter' && field.name === 'tags') {
+      e.preventDefault();
+
+      const tagInput = e.target as HTMLInputElement;
+      const tagValue = tagInput.value.trim();
+
+      if (tagValue === '')
+        return form.setError('tags', {
+          type: 'required',
+          message: "Tags can't be empty.",
+        });
+
+      if (tagValue !== '') {
+        if (tagValue.length >= 16) {
+          return form.setError('tags', {
+            type: 'required',
+            message: 'Tag must be less than 15 characters.',
+          });
+        }
+
+        if (!field.value.includes(tagValue as never)) {
+          form.setValue('tags', [...field.value, tagValue]);
+          tagInput.value = '';
+          form.clearErrors('tags');
+        }
+      } else {
+        form.trigger();
+      }
+    }
+  };
+
+  const handleTagRemove = (tag: string, field: any) => {
+    const filterTags = field.value.filter((e: string) => e !== tag);
+    form.setValue('tags', filterTags);
+  };
 
   return (
     <Form {...form}>
@@ -78,7 +128,40 @@ const Question = () => {
                 <span className="text-primary-500">*</span>
               </FormLabel>
               <FormControl className="mt-3.5">
-                {/* Add an editor */}
+                <Editor
+                  apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY!}
+                  // @ts-ignore
+                  onInit={(evt, editor) => (editorRef.current = editor)}
+                  initialValue=" "
+                  init={{
+                    height: 250,
+                    menubar: false,
+                    plugins: [
+                      'advlist',
+                      'autolink',
+                      'lists',
+                      'link',
+                      'image',
+                      'charmap',
+                      'preview',
+                      'anchor',
+                      'searchreplace',
+                      'visualblocks',
+                      'code',
+                      'fullscreen',
+                      'insertdatetime',
+                      'media',
+                      'table',
+                      'codesample',
+                    ],
+                    toolbar:
+                      'undo redo | blocks | ' +
+                      'codesample | bold italic forecolor | alignleft aligncenter ' +
+                      'alignright alignjustify | bullist numlist',
+                    content_style:
+                      'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+                  }}
+                />
               </FormControl>
               <FormDescription className="body-regular mt-2.5 text-light-500">
                 Introduce the problem and expand on what you put in the title.
@@ -98,13 +181,39 @@ const Question = () => {
                 Tags <span className="text-primary-500">*</span>
               </FormLabel>
               <FormControl className="mt-3.5">
-                <Input
-                  className="no-focus paragraph-regular light-border-2 text-dark300_light700
+                <>
+                  <Input
+                    className="no-focus paragraph-regular light-border-2 text-dark300_light700
                   background-light900_dark300 min-h-[50px] border
                   "
-                  placeholder="Add Tags"
-                  {...field}
-                />
+                    placeholder="Add Tags"
+                    onKeyDown={(e) => handleInputKeyDown(e, field)}
+                  />
+
+                  {field.value.length > 0 && (
+                    <div className="flex-start mt-2.5 gap-2.5">
+                      {field.value.map((tag) => (
+                        <Badge
+                          key={tag}
+                          className="subtle-medium background-light800_dark300 
+                          text-light400_light500 flex items-center justify-center gap-2 rounded-md
+                          border-none px-4 py-2 capitalize
+                          "
+                        >
+                          {tag}
+                          <Image
+                            src={'/assets/icons/close.svg'}
+                            width={12}
+                            height={12}
+                            alt="close"
+                            className="cursor-pointer object-contain invert-0 dark:invert"
+                            onClick={() => handleTagRemove(tag, field)}
+                          />
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+                </>
               </FormControl>
               <FormDescription className="body-regular mt-2.5 text-light-500">
                 Add up to 3 tags to describe what your question is about. You

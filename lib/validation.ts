@@ -12,10 +12,5 @@ export const QuestionSchema = z.object({
   explanation: z.string().max(250, {
     message: 'Minimum of 250 characters.',
   }),
-  tags: z
-    .array(z.string().min(1).max(15))
-    .min(1, {
-      message: 'Add at least one tag.',
-    })
-    .max(5),
+  tags: z.array(z.string().min(1).max(15)).min(1).max(3),
 });
