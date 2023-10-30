@@ -20,6 +20,7 @@ import { Input } from '@/components/ui/input';
 import { QuestionSchema } from '@/lib/validation';
 import { Badge } from '../ui/badge';
 import Image from 'next/image';
+import { createQuestion } from '@/lib/Actions/question.action';
 
 const type: any = 'create';
 
@@ -44,10 +45,11 @@ const Question = () => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof QuestionSchema>) {
+  async function onSubmit(values: z.infer<typeof QuestionSchema>) {
     setIsSubmitting(true);
 
     try {
+      await createQuestion({});
       // make an async call to your API -> create a question
       // contain all form data
       // navigate to home page
@@ -144,7 +146,9 @@ const Question = () => {
                   apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY!}
                   // @ts-ignore
                   onInit={(evt, editor) => (editorRef.current = editor)}
-                  initialValue=" "
+                  onBlur={field.onBlur}
+                  onEditorChange={(content) => field.onChange(content)}
+                  initialValue=""
                   init={{
                     height: 250,
                     menubar: false,
