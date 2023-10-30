@@ -37,6 +37,7 @@ const LocalSearchbar = ({
           type="text"
           placeholder={placeholder}
           className="paragraph-regular no-focus placeholder 
+          text-dark100_light900
           background-light800_darkgradient border-none shadow-none outline-none "
         />
         {iconPosition === 'right' && (
