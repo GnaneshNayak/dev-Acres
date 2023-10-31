@@ -1,10 +1,10 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Editor } from '@tinymce/tinymce-react';
+import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import React, { useRef, useState } from 'react';
-import { Editor } from '@tinymce/tinymce-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -17,24 +17,26 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { QuestionSchema } from '@/lib/validation';
-import { Badge } from '../ui/badge';
-import Image from 'next/image';
 import { createQuestion } from '@/lib/Actions/question.action';
+import { QuestionSchema } from '@/lib/validation';
+import Image from 'next/image';
+import { Badge } from '../ui/badge';
+
+import { usePathname, useRouter } from 'next/navigation';
 
 const type: any = 'create';
 
-const Question = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  // ...
-  const editorRef = useRef(null);
-  // const log = () => {
-  //   if (editorRef.current) {
-  //     console.log(editorRef.current.getContent());
-  //   }
-  // };
+interface Props {
+  mongoUserId: string;
+}
 
-  // 1. Define your form.
+const Question = ({ mongoUserId }: Props) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+  const path = usePathname();
+
+  const editorRef = useRef(null);
+
   const form = useForm<z.infer<typeof QuestionSchema>>({
     resolver: zodResolver(QuestionSchema),
     defaultValues: {
@@ -49,7 +51,14 @@ const Question = () => {
     setIsSubmitting(true);
 
     try {
-      await createQuestion({});
+      await createQuestion({
+        title: values.title,
+        content: values.explanation,
+        tags: values.tags,
+        author: JSON.parse(mongoUserId),
+      });
+
+      // router.push('/');
       // make an async call to your API -> create a question
       // contain all form data
       // navigate to home page
