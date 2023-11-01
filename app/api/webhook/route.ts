@@ -51,11 +51,8 @@ export async function POST(req: Request) {
   }
 
   // Get the ID and type
-  const { id } = evt.data;
-  const eventType = evt.type;
 
-  console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
-  console.log('Webhook body:', body);
+  const eventType = evt.type;
 
   if (eventType === 'user.created') {
     const { id, email_addresses, image_url, username, first_name, last_name } =
@@ -80,7 +77,6 @@ export async function POST(req: Request) {
       clerkId: id,
       updateData: {
         name: `${first_name}${last_name ? ` ${last_name}` : ''}`,
-
         username: username!,
         email: email_addresses[0].email_address,
         picture: image_url,
