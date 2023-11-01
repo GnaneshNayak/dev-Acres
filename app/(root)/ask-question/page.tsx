@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import Question from '@/components/form/Question';
 import { getUserById } from '@/lib/Actions/user.action';
 import { auth } from '@clerk/nextjs';
