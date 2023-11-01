@@ -2,6 +2,14 @@
 
 import User from '@/database/user.model';
 import { connectToDatabase } from '../mongoose';
+import {
+  CreateUserParams,
+  DeleteUserParams,
+  UpdateUserParams,
+} from './shared.types';
+import { revalidatePath } from 'next/cache';
+
+import Question from '@/database/question.model';
 
 export async function getUserById(params: any) {
   try {
@@ -13,20 +21,60 @@ export async function getUserById(params: any) {
     return user;
   } catch (error) {
     console.log(error);
+    throw error;
   }
 }
 
-// import User from '@/database/user.model';
-// import { connectToDatabase } from '../mongoose';
+export async function createUser(userData: CreateUserParams) {
+  try {
+    await connectToDatabase();
+    console.log(userData);
+    const newUser = await User.create(userData);
 
-// export async function getUserById(params: any) {
-//   try {
-//     connectToDatabase();
-//     const { userId } = params;
+    return newUser;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+export async function updateUser(params: UpdateUserParams) {
+  try {
+    await connectToDatabase();
 
-//     const user = await User.findOne({ clerkId: userId });
-//     return user;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
+    const { clerkId, path, updateData } = params;
+    console.log(updateData);
+
+    await User.findOneAndUpdate({ clerkId }, { updateData }, { new: true });
+
+    revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+
+    throw error;
+  }
+}
+export async function deleteUser(params: DeleteUserParams) {
+  try {
+    await connectToDatabase();
+
+    const { clerkId } = params;
+
+    const user = await User.findOne({ clerkId });
+    if (!user) throw new Error('user not found');
+    //  delete everthing
+    const userQuestions = await Question.find({ author: user._id }).distinct(
+      '_id',
+    );
+    await Question.deleteMany({ author: user._id });
+
+    // todo delete user answers, comments,etc
+
+    const deletedUser = await User.findByIdAndDelete(user._id);
+
+    return deletedUser;
+  } catch (error) {
+    console.log(error);
+
+    throw error;
+  }
+}
