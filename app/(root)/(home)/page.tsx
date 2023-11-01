@@ -5,47 +5,13 @@ import NoResults from '@/components/shared/NoResults';
 import LocalSearchbar from '@/components/shared/search/LocalSearchbar';
 import { Button } from '@/components/ui/button';
 import { HomePageFilters } from '@/constants/Filter';
+import { getQuestions } from '@/lib/Actions/question.action';
 
 import Link from 'next/link';
 
-const questions = [
-  {
-    _id: '1',
-    title: 'Cascading Deletes in SQLAlchemy?',
-    tags: [
-      { _id: '1', name: 'python' },
-      { _id: '2', name: 'sql' },
-    ],
-    author: {
-      _id: '1',
-      name: 'Gnanesh | JS Mastery',
-      picture: 'john-doe.jpg',
-    },
-    upvotes: 1500000,
-    views: 500552,
-    answers: [],
-    createdAt: new Date('2023-09-01T12:00:00.000Z'),
-  },
-  {
-    _id: '2',
-    title: 'How to center a div?',
-    tags: [
-      { _id: '3', name: 'css' },
-      { _id: '4', name: 'html' },
-    ],
-    author: {
-      _id: '2',
-      name: 'Jane Smith',
-      picture: 'jane-smith.jpg',
-    },
-    upvotes: 5,
-    views: 50,
-    answers: [],
-    createdAt: new Date('2021-09-02T10:30:00.000Z'),
-  },
-];
-
-export default function Home() {
+export default async function Home() {
+  const results = await getQuestions({});
+  console.log(results.questions);
   return (
     <>
       <div className=" flex w-full justify-between gap-4 sm:flex-row sm:items-center">
@@ -56,7 +22,7 @@ export default function Home() {
         >
           All Questions
         </h1>
-        <Link href="/ask-questions" className="flex ">
+        <Link href="/ask-question" className="flex ">
           <Button
             className="primary-gradient min-h-[46px]
             px-4 py-3
@@ -86,8 +52,8 @@ export default function Home() {
       <Homefilters filters={HomePageFilters} />
 
       <div className="mt-10 flex w-full flex-col gap-6">
-        {questions.length > 0 ? (
-          questions.map((question) => (
+        {results.questions.length > 0 ? (
+          results.questions.map((question) => (
             <QuestionCard
               key={question._id}
               _id={question._id}
@@ -106,7 +72,7 @@ export default function Home() {
             description="  Be the first to break the silence! 🚀 Ask a Question and kickstart the
         discussion. our query could be the next big thing others learn from. Get
         involved! 💡"
-            link="/ask-questions"
+            link="/ask-question"
             linkTittle="Ask a Question"
           />
         )}

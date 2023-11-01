@@ -56,9 +56,10 @@ const Question = ({ mongoUserId }: Props) => {
         content: values.explanation,
         tags: values.tags,
         author: JSON.parse(mongoUserId),
+        path,
       });
 
-      // router.push('/');
+      router.push('/');
       // make an async call to your API -> create a question
       // contain all form data
       // navigate to home page
@@ -252,7 +253,7 @@ const Question = ({ mongoUserId }: Props) => {
         <div className="mt-11 flex justify-end">
           <Button
             type="submit"
-            className="primary-gradient  w-fit 
+            className="w-fit   bg-primary-500 
           !text-light-900 "
             disabled={isSubmitting}
           >
