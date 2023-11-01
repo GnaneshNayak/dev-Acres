@@ -11,7 +11,7 @@ import Link from 'next/link';
 
 export default async function Home() {
   const results = await getQuestions({});
-  console.log(results.questions);
+
   return (
     <>
       <div className=" flex w-full justify-between gap-4 sm:flex-row sm:items-center">
