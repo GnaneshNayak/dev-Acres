@@ -29,7 +29,7 @@ export async function getUserById(params: any) {
 export async function createUser(userData: CreateUserParams) {
   try {
     await connectToDatabase();
-    console.log(userData);
+
     const newUser = await User.create(userData);
 
     return newUser;
@@ -43,7 +43,6 @@ export async function updateUser(params: UpdateUserParams) {
     await connectToDatabase();
 
     const { clerkId, path, updateData } = params;
-    console.log(updateData);
 
     await User.findOneAndUpdate({ clerkId }, updateData, { new: true });
 
