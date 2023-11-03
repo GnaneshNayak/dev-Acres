@@ -67,7 +67,9 @@ const page = async ({ params: { id } }: Props) => {
           textStyles="small-medium text-dark400_light800"
         />
       </div>
+
       <ParseHTML data={result.content} />
+
       <div className="mt-8 flex flex-wrap gap-2">
         {result.tags.map((tag: any) => (
           <RenderTag key={tag._id} _id={tag._id} name={tag.name} />
