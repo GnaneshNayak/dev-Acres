@@ -1,3 +1,4 @@
+import Answer from '@/components/form/Answer';
 import Metric from '@/components/shared/Metric';
 import ParseHTML from '@/components/shared/ParseHTML';
 import RenderTag from '@/components/shared/RenderTag';
@@ -19,9 +20,8 @@ const page = async ({ params: { id } }: Props) => {
     <>
       <div className="flex-start w-full flex-col">
         <div
-          className="flex w-full flex-col-reverse justify-between
-        gap-5
-         sm:flex-row sm:items-center sm:gap-2"
+          className="flex w-full flex-col-reverse
+         justify-between gap-5 sm:flex-row sm:items-center sm:gap-2"
         >
           <Link
             href={`/profile/${result.author._id}`}
@@ -75,6 +75,8 @@ const page = async ({ params: { id } }: Props) => {
           <RenderTag key={tag._id} _id={tag._id} name={tag.name} />
         ))}
       </div>
+
+      <Answer />
     </>
   );
 };
