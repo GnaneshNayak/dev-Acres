@@ -10,6 +10,7 @@ import {
 } from './shared.types';
 import { revalidatePath } from 'next/cache';
 import User from '@/database/user.model';
+import Answer from '@/database/answer.model';
 
 export async function getQuestions(params: GetQuestionsParams) {
   try {
@@ -69,7 +70,12 @@ export async function getQuestionById(params: GetQuestionByIdParams) {
         path: 'author',
         model: User,
         select: '_id clerkId name picture',
+      })
+      .populate({
+        path: 'answers',
+        model: Answer,
       });
+    console.log(questions);
 
     return questions;
   } catch (error) {

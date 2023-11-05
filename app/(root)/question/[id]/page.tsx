@@ -1,9 +1,12 @@
 import Answer from '@/components/form/Answer';
+import AllAnswer from '@/components/shared/AllAnswer';
 import Metric from '@/components/shared/Metric';
 import ParseHTML from '@/components/shared/ParseHTML';
 import RenderTag from '@/components/shared/RenderTag';
 import { getQuestionById } from '@/lib/Actions/question.action';
+import { getUserById } from '@/lib/Actions/user.action';
 import { formatAndDivideNumber, getTimestamp } from '@/lib/utils';
+import { auth } from '@clerk/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -13,9 +16,15 @@ type Props = {
 };
 
 const page = async ({ params: { id } }: Props) => {
-  console.log(id);
   const result = await getQuestionById({ questionId: id });
-  console.log(result);
+  const { userId: clerkId } = auth();
+
+  let mongoUser: any;
+
+  if (clerkId) {
+    mongoUser = await getUserById({ userId: clerkId });
+  }
+
   return (
     <>
       <div className="flex-start w-full flex-col">
@@ -76,7 +85,16 @@ const page = async ({ params: { id } }: Props) => {
         ))}
       </div>
 
-      <Answer />
+      <AllAnswer
+        questionId={result._id}
+        userId={JSON.stringify(mongoUser._id)}
+        totalAnswer={result.answers.length}
+      />
+
+      <Answer
+        questionId={JSON.stringify(result._id)}
+        userId={JSON.stringify(mongoUser)}
+      />
     </>
   );
 };

@@ -17,11 +17,19 @@ import { Button } from '../ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTheme } from '@/context/ThemeProvider';
 import Image from 'next/image';
+import { createAnswer } from '@/lib/Actions/asnwer.action';
+import { redirect, usePathname } from 'next/navigation';
+import { getUserById } from '@/lib/Actions/user.action';
+import error from 'next/error';
 
-type Props = {};
+type Props = {
+  questionId: string;
+  userId: string;
+};
 
-const Answer = (props: Props) => {
+const Answer = ({ questionId, userId }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const pathname = usePathname();
 
   const { mode } = useTheme();
 
@@ -35,8 +43,29 @@ const Answer = (props: Props) => {
   });
 
   async function handleCreateAnswer(values: z.infer<typeof AnswerSchema>) {
-    console.log(values);
+    setIsSubmitting(true);
+
+    try {
+      await createAnswer({
+        content: values.answer,
+        path: pathname,
+        question: JSON.parse(questionId),
+        author: JSON.parse(userId),
+      });
+
+      form.reset();
+
+      if (editorRef.current) {
+        const editor = editorRef.current as any;
+        editor.setContent('');
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSubmitting(false);
+    }
   }
+
   return (
     <>
       <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
