@@ -4,6 +4,7 @@ import {
   downVoteQuestion,
   upVoteQuestion,
 } from '@/lib/Actions/question.action';
+import { toggleSaveQuestion } from '@/lib/Actions/user.action';
 import { formatAndDivideNumber } from '@/lib/utils';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -80,7 +81,13 @@ const Votes = ({
       // todo show a toast
     }
   };
-  // const handleSave = () => {};
+  const handleSave = async () => {
+    await toggleSaveQuestion({
+      userId: JSON.parse(userId),
+      questionId: JSON.parse(itemId),
+      path: pathname,
+    });
+  };
 
   return (
     <div className="flex gap-5">
@@ -136,7 +143,7 @@ const Votes = ({
           height={18}
           alt="star"
           className="cursor-pointer"
-          // onClick={handleSave}
+          onClick={handleSave}
         />
       )}
     </div>

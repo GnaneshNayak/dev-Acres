@@ -7,11 +7,13 @@ import {
   CreateUserParams,
   DeleteUserParams,
   GetAllUsersParams,
+  ToggleSaveQuestionParams,
   UpdateUserParams,
 } from './shared.types';
 import { revalidatePath } from 'next/cache';
 
 import Question from '@/database/question.model';
+import path from 'path';
 
 export async function getUserById(params: any) {
   try {
@@ -90,6 +92,39 @@ export async function getAllUsers(params: GetAllUsersParams) {
     const users = await User.find({}).sort({ createdAt: -1 });
 
     return { users };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
+  try {
+    connectToDatabase();
+    const { userId, questionId, path } = params;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new Error('user not found');
+    }
+
+    const questionSaved = user.saved.includes(questionId);
+
+    if (questionSaved) {
+      await User.findByIdAndUpdate(
+        user._id,
+        { $pull: { saved: questionId } },
+        { new: true },
+      );
+    } else {
+      await User.findByIdAndUpdate(
+        user._id,
+        { $addToSet: { saved: questionId } },
+        { new: true },
+      );
+    }
+
+    revalidatePath(path);
   } catch (error) {
     console.log(error);
     throw error;

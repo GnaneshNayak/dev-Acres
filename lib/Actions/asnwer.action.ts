@@ -76,7 +76,7 @@ export async function upVoteAnswer(params: AnswerVoteParams) {
     });
 
     if (!answer) {
-      throw new Error('Question not found');
+      throw new Error('Answer not found');
     }
 
     revalidatePath(path);
@@ -114,7 +114,7 @@ export async function downVoteAnswer(params: AnswerVoteParams) {
     });
 
     if (!answer) {
-      throw new Error('Question not found');
+      throw new Error('Answer not found');
     }
 
     revalidatePath(path);
