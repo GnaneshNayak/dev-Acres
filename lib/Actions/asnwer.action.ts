@@ -11,7 +11,6 @@ export async function createAnswer(params: CreateAnswerParams) {
     connectToDatabase();
 
     const { content, author, path, question } = params;
-    console.log(params);
 
     const newAnswer = await Answer.create({
       content,

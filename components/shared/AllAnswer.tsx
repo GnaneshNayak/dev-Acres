@@ -17,7 +17,7 @@ type Props = {
 
 const AllAnswer = async ({ questionId, userId, totalAnswer }: Props) => {
   const result = await getAnswers({ questionId });
-  console.log('Anser:', result.answer);
+
   return (
     <div className="my-11">
       <div className=" flex items-center justify-between ">

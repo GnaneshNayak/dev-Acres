@@ -75,7 +75,6 @@ export async function getQuestionById(params: GetQuestionByIdParams) {
         path: 'answers',
         model: Answer,
       });
-    console.log(questions);
 
     return questions;
   } catch (error) {
