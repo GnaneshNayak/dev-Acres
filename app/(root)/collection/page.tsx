@@ -1,16 +1,10 @@
 import QuestionCard from '@/components/cards/QuestionCard';
-import Homefilters from '@/components/home/Homefilters';
 import Filter from '@/components/shared/Filter';
 import NoResults from '@/components/shared/NoResults';
 import LocalSearchbar from '@/components/shared/search/LocalSearchbar';
-import { Button } from '@/components/ui/button';
-import { HomePageFilters, QuestionFilters } from '@/constants/Filter';
-import { getQuestions } from '@/lib/Actions/question.action';
+import { QuestionFilters } from '@/constants/Filter';
 import { getSavedQuestions } from '@/lib/Actions/user.action';
 import { auth } from '@clerk/nextjs';
-import Link from 'next/link';
-
-import React from 'react';
 
 type Props = {};
 
