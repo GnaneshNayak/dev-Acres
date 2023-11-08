@@ -4,14 +4,24 @@ import Filter from '@/components/shared/Filter';
 import NoResults from '@/components/shared/NoResults';
 import LocalSearchbar from '@/components/shared/search/LocalSearchbar';
 import { Button } from '@/components/ui/button';
-import { HomePageFilters } from '@/constants/Filter';
+import { HomePageFilters, QuestionFilters } from '@/constants/Filter';
 import { getQuestions } from '@/lib/Actions/question.action';
-
+import { getSavedQuestions } from '@/lib/Actions/user.action';
+import { auth } from '@clerk/nextjs';
 import Link from 'next/link';
 
-export default async function Home() {
-  const results = await getQuestions({});
-  console.log(results.questions);
+import React from 'react';
+
+type Props = {};
+
+const page = async (props: Props) => {
+  const { userId } = auth();
+
+  if (!userId) return null;
+
+  const results = await getSavedQuestions({
+    clerkId: userId!,
+  });
 
   return (
     <>
@@ -21,17 +31,8 @@ export default async function Home() {
         
         "
         >
-          All Questions
+          Saved Questions
         </h1>
-        <Link href="/ask-question" className="flex ">
-          <Button
-            className="primary-gradient min-h-[46px]
-            px-4 py-3
-           !text-light-900"
-          >
-            Ask a question?
-          </Button>
-        </Link>
       </div>
       <div
         className="mt-11 flex justify-between gap-5 
@@ -45,16 +46,15 @@ export default async function Home() {
           otherClasses="flex-1"
         />
         <Filter
-          filters={HomePageFilters}
+          filters={QuestionFilters}
           otherClasses="min-h-[56px] sm:min-w-[170px]"
           containerClasses="hidden max-md:flex"
         />
       </div>
-      <Homefilters filters={HomePageFilters} />
 
       <div className="mt-10 flex w-full flex-col gap-6">
         {results.questions.length > 0 ? (
-          results.questions.map((question) => (
+          results.questions.map((question: any) => (
             <QuestionCard
               key={question._id}
               _id={question._id}
@@ -80,4 +80,6 @@ export default async function Home() {
       </div>
     </>
   );
-}
+};
+
+export default page;
