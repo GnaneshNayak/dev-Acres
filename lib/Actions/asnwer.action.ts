@@ -107,7 +107,6 @@ export async function downVoteAnswer(params: AnswerVoteParams) {
         $addToSet: { downvotes: userId },
       };
     }
-    console.log(answerId);
 
     const answer = await Answer.findByIdAndUpdate(answerId, updateQuery, {
       new: true,
