@@ -65,3 +65,19 @@ export const formatAndDivideNumber = (num: number | undefined): string => {
     return num.toString();
   }
 };
+
+export function getJoinedDate(dateObject: Date): string {
+  // Ensure the input is a valid Date object
+  if (!(dateObject instanceof Date) || isNaN(dateObject.getTime())) {
+    throw new Error('Invalid date object');
+  }
+
+  // Get the month and year from the Date object
+  const month: string = dateObject.toLocaleString('en-us', { month: 'long' });
+  const year: number = dateObject.getFullYear();
+
+  // Concatenate the month and year
+  const joinedDate: string = `${month} ${year}`;
+
+  return joinedDate;
+}

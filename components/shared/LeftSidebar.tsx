@@ -1,7 +1,7 @@
 'use client';
 
 import { sidebarLinks } from '@/constants';
-import { SignedIn, SignedOut, useClerk } from '@clerk/nextjs';
+import { SignedIn, SignedOut, useAuth, useClerk } from '@clerk/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -14,6 +14,7 @@ const LeftSidebar = () => {
   const pathname = usePathname();
   const router = useRouter();
   const { signOut } = useClerk();
+  const { userId } = useAuth();
 
   return (
     <section
@@ -27,7 +28,15 @@ const LeftSidebar = () => {
           const isActive =
             (pathname.includes(item.route) && item.route.length > 1) ||
             pathname === item.route;
-          // todo
+
+          if (item.route === '/profile') {
+            if (userId) {
+              item.route = `${item.route}/${userId}`;
+            } else {
+              return null;
+            }
+          }
+
           return (
             <Link
               key={item.route}

@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 import React from 'react';
 
-const page = async () => {
+const Page = async () => {
   const result = await getALlTags({});
 
   return (
@@ -70,4 +70,4 @@ const page = async () => {
   );
 };
 
-export default page;
+export default Page;
