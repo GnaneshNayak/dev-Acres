@@ -10,13 +10,15 @@ import React from 'react';
 import { getJoinedDate } from '@/lib/utils';
 import ProfileLink from '@/components/shared/ProfileLink';
 import Stats from '@/components/shared/Stats';
+import QuestionTab from '@/components/shared/QuestionTab';
+import AnswerTab from '@/components/shared/AnswerTab';
 
 const page = async ({ params, searchParams }: URLProps) => {
   const { userId: clerkId } = auth();
   const userInfo = await getUserInfo({
     userId: params.id,
   });
-  console.log(userInfo);
+
   return (
     <>
       <div className="flex flex-col-reverse items-start justify-between sm:flex-row">
@@ -94,8 +96,20 @@ const page = async ({ params, searchParams }: URLProps) => {
               Answers
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="top-posts">Posts</TabsContent>
-          <TabsContent value="answers">Answers.</TabsContent>
+          <TabsContent value="top-posts">
+            <QuestionTab
+              searchParams={searchParams}
+              userId={userInfo.user._id}
+              clerkId={clerkId}
+            />
+          </TabsContent>
+          <TabsContent value="answers" className="flex flex-col gap-6">
+            <AnswerTab
+              searchParams={searchParams}
+              userId={userInfo.user._id}
+              clerkId={clerkId}
+            />
+          </TabsContent>
         </Tabs>
       </div>
     </>

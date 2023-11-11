@@ -7,6 +7,7 @@ import {
   CreateQuestionParams,
   GetQuestionByIdParams,
   GetQuestionsParams,
+  GetUserByIdParams,
   QuestionVoteParams,
 } from './shared.types';
 import { revalidatePath } from 'next/cache';
