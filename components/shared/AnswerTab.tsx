@@ -15,7 +15,7 @@ const AnswerTab = async ({ searchParams, userId, clerkId }: Props) => {
     userId,
     page: 1,
   });
-  console.log(result.answers);
+  console.log('Asm', result.answers);
 
   return (
     <>

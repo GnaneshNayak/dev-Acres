@@ -5,14 +5,15 @@ import Tag from '@/database/tag.model';
 import { connectToDatabase } from '../mongoose';
 import {
   CreateQuestionParams,
+  DeleteQuestionParams,
   GetQuestionByIdParams,
   GetQuestionsParams,
-  GetUserByIdParams,
   QuestionVoteParams,
 } from './shared.types';
 import { revalidatePath } from 'next/cache';
 import User from '@/database/user.model';
 import Answer from '@/database/answer.model';
+import Interaction from '@/database/interaction.model';
 
 export async function getQuestions(params: GetQuestionsParams) {
   try {
@@ -154,6 +155,26 @@ export async function downVoteQuestion(params: QuestionVoteParams) {
     if (!question) {
       throw new Error('Question not found');
     }
+
+    revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function deleteQuestion(params: DeleteQuestionParams) {
+  try {
+    connectToDatabase();
+    const { questionId, path } = params;
+
+    await Answer.deleteMany({ question: questionId });
+    await Question.deleteOne({ _id: questionId });
+    await Interaction.deleteMany({ question: questionId });
+    await Tag.updateMany(
+      { question: questionId },
+      { $pull: { questions: questionId } },
+    );
 
     revalidatePath(path);
   } catch (error) {
