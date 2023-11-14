@@ -10,7 +10,7 @@ import { connectToDatabase } from '../mongoose';
 import Question from '@/database/question.model';
 import { revalidatePath } from 'next/cache';
 import Answer from '@/database/answer.model';
-import Tag from '@/database/tag.model';
+
 import Interaction from '@/database/interaction.model';
 
 export async function createAnswer(params: CreateAnswerParams) {
@@ -141,7 +141,7 @@ export async function deleteAnswer(params: DeleteAnswerParams) {
       { question: answer.question },
       { $pull: { answers: answerId } },
     );
-    await Interaction.deleteMany({ question: answerId });
+    await Interaction.deleteMany({ answer: answerId });
 
     revalidatePath(path);
   } catch (error) {
