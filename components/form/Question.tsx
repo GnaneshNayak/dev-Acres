@@ -41,7 +41,7 @@ const Question = ({ mongoUserId, type, questionDetails }: Props) => {
 
   const parsedQuestionDetails = JSON.parse(questionDetails || '');
 
-  const groupTags = parsedQuestionDetails.tags.map((t) => t.name);
+  const groupTags = parsedQuestionDetails.tags.map((t: any) => t.name);
 
   const form = useForm<z.infer<typeof QuestionSchema>>({
     resolver: zodResolver(QuestionSchema),
@@ -227,7 +227,7 @@ const Question = ({ mongoUserId, type, questionDetails }: Props) => {
                     className="no-focus paragraph-regular light-border-2 text-dark300_light700
                   background-light900_dark300 min-h-[50px] border
                   "
-                    disabled={type == 'Edit'}
+                    disabled={type === 'Edit'}
                     placeholder="Add Tags"
                     onKeyDown={(e) => handleInputKeyDown(e, field)}
                   />

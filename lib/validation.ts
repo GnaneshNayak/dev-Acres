@@ -20,3 +20,11 @@ export const AnswerSchema = z.object({
     message: 'Minimum of 20 characters.',
   }),
 });
+
+export const ProfileSchema = z.object({
+  name: z.string().min(2).max(30),
+  username: z.string().min(2).max(30),
+  portfolioLink: z.string().url(),
+  location: z.string().min(5).max(50),
+  bio: z.string().min(10).max(150),
+});
