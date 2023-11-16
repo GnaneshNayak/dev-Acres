@@ -3,61 +3,17 @@ import Link from 'next/link';
 import React from 'react';
 
 import RenderTag from './RenderTag';
+import { getTopQuestions } from '@/lib/Actions/question.action';
+import console from 'console';
+import { getPopularTags } from '@/lib/Actions/tags.action';
 
 type Props = {};
 
-const hotQuestion = [
-  {
-    id: '1',
-    title:
-      'Best practices for data fetching in a Next.js application with Server-Side Rendering (SSR)?',
-  },
-  {
-    id: '2',
-    title: ' Can I get the course for free?',
-  },
-  {
-    id: '3',
-    title: 'Redux Toolkit Not Updating State as Expected',
-  },
-  {
-    id: '4',
-    title: 'Async/Await Function Not Handling Errors Properly',
-  },
-  {
-    id: '5',
-    title: 'How do I use express as a custom server in NextJS?',
-  },
-];
-const PopularTags = [
-  {
-    id: '1',
-    title: 'React',
-    totalQuestion: 12,
-  },
-  {
-    id: '2',
-    title: 'Next js ',
-    totalQuestion: 3,
-  },
-  {
-    id: '3',
-    title: 'Tailwind',
-    totalQuestion: 32,
-  },
-  {
-    id: '4',
-    title: 'Java',
-    totalQuestion: 22,
-  },
-  {
-    id: '5',
-    title: 'NextJS?',
-    totalQuestion: 222,
-  },
-];
+const RightSidebar = async (props: Props) => {
+  const hotQuestion = await getTopQuestions({});
+  const PopularTags = await getPopularTags({});
+  console.log(PopularTags);
 
-const RightSidebar = (props: Props) => {
   return (
     <section
       className="
@@ -73,7 +29,7 @@ const RightSidebar = (props: Props) => {
           {hotQuestion.map((q) => (
             <Link
               key={q.id}
-              href={`/questions/${q.id}`}
+              href={`/question/${q.id}`}
               className="flex cursor-pointer items-center justify-between
             gap-7"
             >
@@ -97,10 +53,10 @@ const RightSidebar = (props: Props) => {
         <div className="mt-7 flex flex-col gap-4">
           {PopularTags.map((p) => (
             <RenderTag
-              key={p.id}
-              _id={p.id}
-              name={p.title}
-              totalQuestions={p.totalQuestion}
+              key={p._id}
+              _id={p._id}
+              name={p.name}
+              totalQuestions={p.numberOfQuestions}
               showCount
             />
           ))}

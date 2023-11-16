@@ -84,3 +84,27 @@ export async function getQuestionByTagsId(params: GetQuestionsByTagIdParams) {
     throw error;
   }
 }
+
+export async function getPopularTags(params: GetAllTagsParams) {
+  try {
+    await connectToDatabase();
+
+    const tags = await Tag.aggregate([
+      {
+        $project: {
+          name: 1,
+          numberOfQuestions: { $size: '$question' },
+        },
+      },
+      { $sort: { numberOfQuestions: -1 } },
+      { $limit: 5 },
+    ]);
+
+    // if (!tags) throw new Error('no tags found');
+
+    return tags;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
