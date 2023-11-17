@@ -1,16 +1,18 @@
 /* eslint-disable no-unused-vars */
 'use server';
+
+import {
+  SearchParams,
+  GetAllTagsParams,
+  GetQuestionsByTagIdParams,
+  GetTopInteractedTagsParams,
+} from './shared.types.d';
 import Tag, { ITag } from './../../database/tag.model';
 
 import Question from '@/database/question.model';
 import User from '@/database/user.model';
-import { _FilterQuery } from 'mongoose';
+import { FilterQuery, _FilterQuery } from 'mongoose';
 import { connectToDatabase } from '../mongoose';
-import {
-  GetAllTagsParams,
-  GetQuestionsByTagIdParams,
-  GetTopInteractedTagsParams,
-} from './shared.types';
 
 export async function getTopInteractedTags(params: GetTopInteractedTagsParams) {
   try {
@@ -41,7 +43,14 @@ export async function getALlTags(params: GetAllTagsParams) {
   try {
     await connectToDatabase();
 
-    const tags = await Tag.find({});
+    const { searchQuery } = params;
+
+    const query: FilterQuery<typeof Tag> = {};
+    if (searchQuery) {
+      query.$or = [{ name: { $regex: new RegExp(searchQuery, 'i') } }];
+    }
+
+    const tags = await Tag.find(query);
 
     // if (!tags) throw new Error('no tags found');
 

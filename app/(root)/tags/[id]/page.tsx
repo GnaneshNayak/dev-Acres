@@ -30,7 +30,7 @@ const page = async ({ params, searchParams }: Props) => {
        max-sm:flex-col sm:items-center"
       >
         <LocalSearchbar
-          route="/"
+          route={`/tags/${params.id}`}
           iconPosition="left"
           imgSrc="/assets/icons/search.svg"
           placeholder="Search tag questions..."
