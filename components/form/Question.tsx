@@ -39,7 +39,8 @@ const Question = ({ mongoUserId, type, questionDetails }: Props) => {
 
   const editorRef = useRef(null);
 
-  const parsedQuestionDetails = JSON.parse(questionDetails || '');
+  const parsedQuestionDetails =
+    questionDetails && JSON.parse(questionDetails || '');
 
   const groupTags = parsedQuestionDetails.tags.map((t: any) => t.name);
 
