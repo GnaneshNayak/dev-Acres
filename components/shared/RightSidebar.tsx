@@ -4,7 +4,7 @@ import React from 'react';
 
 import RenderTag from './RenderTag';
 import { getTopQuestions } from '@/lib/Actions/question.action';
-import console from 'console';
+
 import { getPopularTags } from '@/lib/Actions/tags.action';
 
 type Props = {};
@@ -12,7 +12,6 @@ type Props = {};
 const RightSidebar = async (props: Props) => {
   const hotQuestion = await getTopQuestions({});
   const PopularTags = await getPopularTags({});
-  console.log(PopularTags);
 
   return (
     <section
