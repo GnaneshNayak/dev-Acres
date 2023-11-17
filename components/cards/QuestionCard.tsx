@@ -16,6 +16,7 @@ interface Props {
     _id: string;
     name: string;
     picture: string;
+    clerkId: string;
   };
   upvotes: number[];
   views: number;
@@ -35,7 +36,8 @@ const QuestionCard = ({
   answers,
   createdAt,
 }: Props) => {
-  const showActionButton = clerkId && clerkId === author.clerkId;
+  const showActionButton = clerkId && clerkId === author?.clerkId;
+  console.log(author);
 
   return (
     <div className="card-wrapper  rounded-[10px] p-9 sm:px-11">
