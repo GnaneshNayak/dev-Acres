@@ -42,13 +42,13 @@ const Question = ({ mongoUserId, type, questionDetails }: Props) => {
   const parsedQuestionDetails =
     questionDetails && JSON.parse(questionDetails || '');
 
-  const groupTags = parsedQuestionDetails.tags.map((t: any) => t.name);
+  const groupTags = parsedQuestionDetails?.tags.map((t: any) => t.name);
 
   const form = useForm<z.infer<typeof QuestionSchema>>({
     resolver: zodResolver(QuestionSchema),
     defaultValues: {
-      title: parsedQuestionDetails.title || '',
-      explanation: parsedQuestionDetails.content || '',
+      title: parsedQuestionDetails?.title || '',
+      explanation: parsedQuestionDetails?.content || '',
       tags: groupTags || [],
     },
   });
@@ -60,12 +60,12 @@ const Question = ({ mongoUserId, type, questionDetails }: Props) => {
     try {
       if (type === 'Edit') {
         await editQuestion({
-          questionId: parsedQuestionDetails._id,
+          questionId: parsedQuestionDetails?._id,
           title: values.title,
           content: values.explanation,
           path: pathname,
         });
-        router.push(`/question/${parsedQuestionDetails._id}`);
+        router.push(`/question/${parsedQuestionDetails?._id}`);
       } else {
         await createQuestion({
           title: values.title,
@@ -171,7 +171,7 @@ const Question = ({ mongoUserId, type, questionDetails }: Props) => {
                   onInit={(evt, editor) => (editorRef.current = editor)}
                   onBlur={field.onBlur}
                   onEditorChange={(content) => field.onChange(content)}
-                  initialValue={parsedQuestionDetails.content || ''}
+                  initialValue={parsedQuestionDetails?.content || ''}
                   init={{
                     height: 250,
                     menubar: false,
