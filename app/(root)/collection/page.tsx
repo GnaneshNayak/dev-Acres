@@ -7,8 +7,6 @@ import { getSavedQuestions } from '@/lib/Actions/user.action';
 import { SearchParamsProps } from '@/types';
 import { auth } from '@clerk/nextjs';
 
-type Props = {};
-
 const page = async ({ searchParams }: SearchParamsProps) => {
   const { userId } = auth();
 
@@ -17,34 +15,25 @@ const page = async ({ searchParams }: SearchParamsProps) => {
   const results = await getSavedQuestions({
     clerkId: userId!,
     searchQuery: searchParams.q,
+    filter: searchParams.filter,
   });
 
   return (
     <>
-      <div className=" flex w-full justify-between gap-4 sm:flex-row sm:items-center">
-        <h1
-          className="h1-bold text-dark100_light900
-        
-        "
-        >
-          Saved Questions
-        </h1>
-      </div>
-      <div
-        className="mt-11 flex justify-between gap-5 
-       max-sm:flex-col sm:items-center"
-      >
+      <h1 className="h1-bold text-dark100_light900">Saved Questions</h1>
+
+      <div className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
         <LocalSearchbar
-          route="/collection"
+          route="/"
           iconPosition="left"
           imgSrc="/assets/icons/search.svg"
-          placeholder="Search questions..."
+          placeholder="Search for questions"
           otherClasses="flex-1"
         />
+
         <Filter
           filters={QuestionFilters}
           otherClasses="min-h-[56px] sm:min-w-[170px]"
-          containerClasses="hidden max-md:flex"
         />
       </div>
 

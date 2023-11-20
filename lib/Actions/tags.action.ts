@@ -43,14 +43,44 @@ export async function getALlTags(params: GetAllTagsParams) {
   try {
     await connectToDatabase();
 
-    const { searchQuery } = params;
+    const { searchQuery, filter } = params;
 
     const query: FilterQuery<typeof Tag> = {};
     if (searchQuery) {
       query.$or = [{ name: { $regex: new RegExp(searchQuery, 'i') } }];
     }
+    let sortOptions = {};
 
-    const tags = await Tag.find(query);
+    switch (filter) {
+      case 'popular':
+        sortOptions = {
+          question: -1,
+        };
+        break;
+
+      case 'recent':
+        sortOptions = {
+          createdAt: -1,
+        };
+        break;
+
+      case 'name':
+        sortOptions = {
+          name: 1,
+        };
+        break;
+
+      case 'old':
+        sortOptions = {
+          createdAt: 1,
+        };
+        break;
+
+      default:
+        break;
+    }
+
+    const tags = await Tag.find(query).sort(sortOptions);
 
     // if (!tags) throw new Error('no tags found');
 

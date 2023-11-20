@@ -13,11 +13,21 @@ type Props = {
   userId: string;
   totalAnswer: string;
   page?: number;
-  filter?: number;
+  filter?: string;
 };
 
-const AllAnswer = async ({ questionId, userId, totalAnswer }: Props) => {
-  const result = await getAnswers({ questionId });
+const AllAnswer = async ({
+  questionId,
+  userId,
+  totalAnswer,
+  page,
+  filter,
+}: Props) => {
+  const result = await getAnswers({
+    questionId,
+    page: page ? +page : 1,
+    sortBy: filter,
+  });
 
   return (
     <div className="my-11">
