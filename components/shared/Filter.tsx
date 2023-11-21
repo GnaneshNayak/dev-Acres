@@ -28,8 +28,6 @@ const Filter = ({ filters, otherClasses, containerClasses }: Props) => {
   const paramFilter = searchParams.get('filter');
 
   const handleUpdateParams = (value: string) => {
-    console.log(value);
-
     const newUrl = formUrlQuery({
       params: searchParams.toString(),
       key: 'filter',
