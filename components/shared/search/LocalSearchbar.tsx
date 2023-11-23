@@ -5,7 +5,6 @@ import { formUrlQuery, removeKeysFromQuery } from '@/lib/utils';
 import Image from 'next/image';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import qs from 'query-string';
 
 type CustomInputProps = {
   route: string;
