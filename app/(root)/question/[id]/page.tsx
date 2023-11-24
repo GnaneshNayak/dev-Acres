@@ -110,6 +110,7 @@ const page = async ({ params: { id }, searchParams }: Props) => {
       <Answer
         questionId={JSON.stringify(result._id)}
         userId={JSON.stringify(mongoUser)}
+        question={result.content}
       />
     </>
   );

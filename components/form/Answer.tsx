@@ -25,10 +25,12 @@ import error from 'next/error';
 type Props = {
   questionId: string;
   userId: string;
+  question: string;
 };
 
-const Answer = ({ questionId, userId }: Props) => {
+const Answer = ({ questionId, userId, question }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmittingAI, setIsSubmittingAI] = useState(false);
   const pathname = usePathname();
 
   const { mode } = useTheme();
@@ -66,6 +68,34 @@ const Answer = ({ questionId, userId }: Props) => {
     }
   }
 
+  const generateAIAnswer = async () => {
+    if (!userId) return;
+    setIsSubmittingAI(true);
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt`,
+        {
+          method: 'POST',
+          body: JSON.stringify({ question }),
+        },
+      );
+      const aiAnswer = await response.json();
+
+      const formattedAnswer = aiAnswer.reply.replace(/\n/g, '<br />');
+
+      if (editorRef.current) {
+        const editor = editorRef.current as any;
+        editor.setContent(formattedAnswer);
+      }
+      // toast
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSubmittingAI(false);
+    }
+  };
+
   return (
     <>
       <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
@@ -76,15 +106,23 @@ const Answer = ({ questionId, userId }: Props) => {
           className="btn light-border gap-1.5 rounded-md
         px-4 text-primary-500 shadow-none dark:text-primary-500
         "
+          onClick={generateAIAnswer}
+          disabled={isSubmittingAI}
         >
-          <Image
-            src={'/assets/icons/stars.svg'}
-            alt="star"
-            width={12}
-            height={12}
-            className="object-contain"
-          />
-          Generate an Ai Answer
+          {isSubmittingAI ? (
+            <>Generating...</>
+          ) : (
+            <>
+              <Image
+                src={'/assets/icons/stars.svg'}
+                alt="star"
+                width={12}
+                height={12}
+                className="object-contain"
+              />
+              Generate an Ai Answer
+            </>
+          )}
         </Button>
       </div>
       <Form {...form}>
