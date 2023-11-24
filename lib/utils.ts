@@ -147,6 +147,7 @@ export const assignBadges = (params: BadgeParam) => {
     const { type, count } = item;
 
     const badgeLevels: any = BADGE_CRITERIA[type];
+    console.log('bd', badgeLevels);
 
     Object.keys(badgeLevels).forEach((level: any) => {
       if (count >= badgeLevels[level]) {
