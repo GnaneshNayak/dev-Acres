@@ -10,8 +10,6 @@ import Link from 'next/link';
 import React from 'react';
 
 const page = async ({ searchParams }: SearchParamsProps) => {
-  // console.log(searchParams.q);
-
   const result = await getAllUsers({
     searchQuery: searchParams.q,
     filter: searchParams.filter,

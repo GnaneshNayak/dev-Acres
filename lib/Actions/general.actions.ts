@@ -78,7 +78,7 @@ export async function globalSearch(params: SearchParams) {
             : item._id,
       }));
     }
-    console.log(results);
+
     return JSON.stringify(results);
   } catch (error) {
     console.log(error);
