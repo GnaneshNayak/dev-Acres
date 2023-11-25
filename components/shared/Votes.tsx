@@ -12,6 +12,7 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 
 import React, { useEffect } from 'react';
+import { toast } from '../ui/use-toast';
 
 type Props = {
   type: string;
@@ -45,7 +46,11 @@ const Votes = ({
   }, [itemId, userId, pathname, router]);
 
   const handleVote = async (action: string) => {
-    if (!userId) return;
+    if (!userId)
+      return toast({
+        title: 'Please log in',
+        description: 'You must be logged in to vote',
+      });
 
     if (action === 'upvote') {
       if (type === 'Question') {
@@ -66,8 +71,10 @@ const Votes = ({
         });
       }
 
-      // todo show toast message
-      return;
+      return toast({
+        title: `Upvote ${!hasupVotes ? 'Successfull' : 'Removed'}`,
+        variant: !hasupVotes ? 'default' : 'destructive',
+      });
     }
     if (action === 'downvote') {
       if (type === 'Question') {
@@ -87,7 +94,10 @@ const Votes = ({
           path: pathname,
         });
       }
-      // todo show a toast
+      return toast({
+        title: `Downvote ${!hasdownVotes ? 'Successful' : 'Removed'}`,
+        variant: !hasdownVotes ? 'default' : 'destructive',
+      });
     }
   };
   const handleSave = async () => {
@@ -95,6 +105,10 @@ const Votes = ({
       userId: JSON.parse(userId),
       questionId: JSON.parse(itemId),
       path: pathname,
+    });
+    return toast({
+      title: `Question ${!hasSaved ? 'Saved' : 'Unsaved'}`,
+      variant: !hasupVotes ? 'default' : 'destructive',
     });
   };
 

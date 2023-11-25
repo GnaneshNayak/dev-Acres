@@ -22,7 +22,7 @@ const page = async ({ params: { id }, searchParams }: Props) => {
   const result = await getQuestionById({ questionId: id });
   const { userId: clerkId } = auth();
 
-  let mongoUser: any;
+  let mongoUser;
 
   if (clerkId) {
     mongoUser = await getUserById({ userId: clerkId });
@@ -54,11 +54,11 @@ const page = async ({ params: { id }, searchParams }: Props) => {
             <Votes
               type="Question"
               itemId={JSON.stringify(result._id)}
-              userId={JSON.stringify(mongoUser._id)}
+              userId={JSON.stringify(mongoUser?._id)}
               upVotes={result.upvotes.length}
-              hasupVotes={result.upvotes.includes(mongoUser._id)}
+              hasupVotes={result.upvotes.includes(mongoUser?._id)}
               downvotes={result.downvotes.length}
-              hasdownVotes={result.downvotes.includes(mongoUser._id)}
+              hasdownVotes={result.downvotes.includes(mongoUser?._id)}
               hasSaved={mongoUser?.saved.includes(result._id)}
             />
           </div>
@@ -101,7 +101,7 @@ const page = async ({ params: { id }, searchParams }: Props) => {
 
       <AllAnswer
         questionId={result._id}
-        userId={mongoUser._id}
+        userId={mongoUser?._id}
         totalAnswer={result.answers.length}
         page={searchParams?.page}
         filter={searchParams?.filter}
