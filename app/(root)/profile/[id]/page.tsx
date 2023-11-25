@@ -13,6 +13,12 @@ import Stats from '@/components/shared/Stats';
 import QuestionTab from '@/components/shared/QuestionTab';
 import AnswerTab from '@/components/shared/AnswerTab';
 
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Dev Overflow | profile Page',
+};
+
 const page = async ({ params, searchParams }: URLProps) => {
   const { userId: clerkId } = auth();
   const userInfo = await getUserInfo({

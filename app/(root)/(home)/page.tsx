@@ -8,8 +8,17 @@ import { Button } from '@/components/ui/button';
 import { HomePageFilters } from '@/constants/Filter';
 import { getQuestions } from '@/lib/Actions/question.action';
 import { SearchParamsProps } from '@/types';
+import { Metadata } from 'next';
 
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Dev Overflow | Home Page',
+  description: 'Home page of Dev Overflow',
+  icons: {
+    icon: '/assets/images/site-logo.svg',
+  },
+};
 
 export default async function Home({ searchParams }: SearchParamsProps) {
   const results = await getQuestions({

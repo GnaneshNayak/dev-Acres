@@ -9,6 +9,12 @@ import Link from 'next/link';
 
 import React from 'react';
 
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Dev Overflow | Community Page',
+};
+
 const page = async ({ searchParams }: SearchParamsProps) => {
   const result = await getAllUsers({
     searchQuery: searchParams.q,
