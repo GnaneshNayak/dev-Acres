@@ -75,7 +75,7 @@ const LocalSearchbar = ({
           placeholder={placeholder}
           className="paragraph-regular no-focus placeholder 
           text-dark100_light900
-          background-light800_darkgradient border-none shadow-none outline-none "
+          text-dark400_light700 border-none bg-transparent shadow-none outline-none "
           onChange={(e) => setSearch(e.target.value)}
         />
         {iconPosition === 'right' && (

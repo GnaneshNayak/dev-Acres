@@ -6,8 +6,12 @@ import Pagination from '@/components/shared/Pagination';
 import LocalSearchbar from '@/components/shared/search/LocalSearchbar';
 import { Button } from '@/components/ui/button';
 import { HomePageFilters } from '@/constants/Filter';
-import { getQuestions } from '@/lib/Actions/question.action';
+import {
+  getQuestions,
+  getRecommendedQuestions,
+} from '@/lib/Actions/question.action';
 import { SearchParamsProps } from '@/types';
+import { auth } from '@clerk/nextjs';
 import { Metadata } from 'next';
 
 import Link from 'next/link';
@@ -21,11 +25,30 @@ export const metadata: Metadata = {
 };
 
 export default async function Home({ searchParams }: SearchParamsProps) {
-  const results = await getQuestions({
-    searchQuery: searchParams.q,
-    filter: searchParams.filter,
-    page: searchParams.page ? +searchParams.page : 1,
-  });
+  const { userId } = auth();
+
+  let results;
+
+  if (searchParams?.filter === 'recommended') {
+    if (userId) {
+      results = await getRecommendedQuestions({
+        userId,
+        searchQuery: searchParams.q,
+        page: searchParams.page ? +searchParams.page : 1,
+      });
+    } else {
+      results = {
+        questions: [],
+        isNext: false,
+      };
+    }
+  } else {
+    results = await getQuestions({
+      searchQuery: searchParams.q,
+      filter: searchParams.filter,
+      page: searchParams.page ? +searchParams.page : 1,
+    });
+  }
 
   return (
     <>
@@ -66,8 +89,8 @@ export default async function Home({ searchParams }: SearchParamsProps) {
       <Homefilters filters={HomePageFilters} />
 
       <div className="mt-10 flex w-full flex-col gap-6">
-        {results.questions.length > 0 ? (
-          results.questions.map((question) => (
+        {results?.questions.length > 0 ? (
+          results?.questions.map((question) => (
             <QuestionCard
               key={question._id}
               _id={question._id}
