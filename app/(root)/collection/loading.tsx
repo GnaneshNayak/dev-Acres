@@ -1,6 +1,3 @@
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import React from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const Loading = () => {
