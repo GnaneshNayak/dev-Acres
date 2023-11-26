@@ -4,6 +4,7 @@ export default authMiddleware({
   publicRoutes: [
     '/',
     '/api/webhook',
+    '/api/chatgpt',
     '/question/:id',
     '/tags',
     '/tags/:id',
