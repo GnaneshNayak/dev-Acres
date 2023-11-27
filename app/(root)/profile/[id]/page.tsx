@@ -16,7 +16,7 @@ import AnswerTab from '@/components/shared/AnswerTab';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Dev Acre | profile Page',
+  title: 'Dev Acres | profile Page',
 };
 
 const page = async ({ params, searchParams }: URLProps) => {

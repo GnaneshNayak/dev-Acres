@@ -10,7 +10,7 @@ import { auth } from '@clerk/nextjs';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Dev Acre | Collection Page',
+  title: 'Dev Acres | Collection Page',
 };
 
 const page = async ({ searchParams }: SearchParamsProps) => {

@@ -25,7 +25,7 @@ const Navbar = () => {
           className="h2-bold font-spaceGrotesk text-dark-100 
         dark:text-light-900 max-sm:hidden"
         >
-          Dev <span className="text-primary-500">Acre</span>
+          Dev <span className="text-primary-500">Acres</span>
         </p>
       </Link>
 

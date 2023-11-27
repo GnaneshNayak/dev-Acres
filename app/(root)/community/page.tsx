@@ -12,7 +12,7 @@ import React from 'react';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Dev Acre | Community Page',
+  title: 'Dev Acres | Community Page',
 };
 
 const page = async ({ searchParams }: SearchParamsProps) => {
