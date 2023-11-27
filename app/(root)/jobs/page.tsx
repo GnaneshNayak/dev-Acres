@@ -28,8 +28,6 @@ const page = async ({ searchParams }: Props) => {
   const countries = await fetchCountries();
   const page = parseInt(searchParams.page ?? 1);
 
-  console.log(countries);
-
   return (
     <>
       <h1 className="h1-bold pb-9 text-dark-100 dark:text-light-900">Jobs</h1>

@@ -34,7 +34,7 @@ const GlobalFilters = (props: Props) => {
       router.push(newUrl, { scroll: false });
     }
   };
-  console.log(active);
+
   return (
     <div className="flex items-center gap-5 px-5">
       <p className="text-dark400_light900 body-medium">Type: </p>
