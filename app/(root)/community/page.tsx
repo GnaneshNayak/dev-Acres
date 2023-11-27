@@ -12,7 +12,7 @@ import React from 'react';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Dev Overflow | Community Page',
+  title: 'Dev Acre | Community Page',
 };
 
 const page = async ({ searchParams }: SearchParamsProps) => {

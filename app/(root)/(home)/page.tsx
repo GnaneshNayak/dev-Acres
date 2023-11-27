@@ -17,8 +17,8 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Dev Overflow | Home Page',
-  description: 'Home page of Dev Overflow',
+  title: 'Dev Acre | Home Page',
+  description: 'Home page of Dev Acre',
   icons: {
     icon: '/assets/images/site-logo.svg',
   },
